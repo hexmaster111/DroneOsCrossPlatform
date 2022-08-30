@@ -1,0 +1,39 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:DroneOsCrossPlatform.ViewModels"
+             xmlns:bindingConverters="clr-namespace:DroneOsCrossPlatform.BindingConverters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DroneOsCrossPlatform.Views.AddonDataViewer">
+
+    <Design.DataContext>
+        <!-- Disabled as the Data Context is set from code, and not static generated  -->
+        <!-- ReSharper disable once Xaml.ConstructorWarning -->
+        <viewModels:AddonDataViewModel />
+    </Design.DataContext>
+
+    <UserControl.Resources>
+        <bindingConverters:TechnicalConverter x:Key="ToHex"/>
+    </UserControl.Resources>
+
+    <!-- This will contain everything needed to view a list of registers -->
+    <ListBox Items="{Binding AddonData.RegisterData}">
+        <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+        </ListBox.ItemsPanel>
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <Border BorderBrush="LightGray" BorderThickness="5">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Grid.Row="0" Text="{Binding RegisterAddress, 
+                        Converter={StaticResource ToHex} }"/>
+                        <TextBlock Grid.Row="1" Text="{Binding RegisterName}" />
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>
